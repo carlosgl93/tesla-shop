@@ -39,7 +39,7 @@ const Summary: FC<Props> = () => {
                   <Link underline='always'>Edit</Link>
                 </NextLink>
               </Box>
-              <Typography>Carlos Gumucio </Typography>
+              <Typography>Carlos Gumucio</Typography>
               <Typography>Copihue 2884</Typography>
               <Typography>Stgo, Chile</Typography>
 

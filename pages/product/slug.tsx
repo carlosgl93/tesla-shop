@@ -2,6 +2,7 @@ import { Box, Button, Chip, Grid, Typography } from "@mui/material";
 import React from "react";
 import ShopLayout from "../../components/layouts/ShopLayout";
 import ProductSlideShow from "../../components/products/ProductSlideShow";
+import ItemCounter from "../../components/ui/ItemCounter";
 import { initialData } from "../../database/products";
 
 const product = initialData.products[0];
@@ -26,7 +27,7 @@ const ProductPage = () => {
               <Typography variant='subtitle2' component='h6'>
                 Quantity
               </Typography>
-              {/* Item counter todo */}
+              <ItemCounter />
             </Box>
 
             {product.inStock <= 0 ? (

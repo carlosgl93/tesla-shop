@@ -8,8 +8,9 @@ import {
   Button,
 } from "@mui/material";
 import React from "react";
-import CartList from "../../components/cart/CartList";
 import ShopLayout from "../../components/layouts/ShopLayout";
+import CartList from "../../components/cart/CartList";
+import OrderSummary from "../../components/cart/OrderSummary";
 
 const CartPage = () => {
   return (
@@ -22,13 +23,14 @@ const CartPage = () => {
       </Typography>
       <Grid container sx={{ mt: 2 }} spacing={2}>
         <Grid item xs={12} sm={7}>
-          <CartList />
+          <CartList editable />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Card className='summary-card'>
             <CardContent>
-              <Typography>Order</Typography>
-              <Divider sx={{ my: 1 }} />
+              <Typography>Order Summary</Typography>
+              <Divider sx={{ my: 2 }} />
+              <OrderSummary />
 
               <Box sx={{ mt: 3 }}>
                 <Button color='secondary' className='circular-btn' fullWidth>

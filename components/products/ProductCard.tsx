@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from "react";
+import NextLink from "next/link";
 import {
   Grid,
   Card,
@@ -33,14 +34,16 @@ const ProductCard: FC<Props> = ({ product }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Card>
-        <CardActionArea>
-          <CardMedia
-            className='fadeIn'
-            alt={product.title}
-            component='img'
-            image={productImage}
-          />
-        </CardActionArea>
+        <NextLink href='/product/slug' passHref prefetch={false}>
+          <CardActionArea>
+            <CardMedia
+              className='fadeIn'
+              alt={product.title}
+              component='img'
+              image={productImage}
+            />
+          </CardActionArea>
+        </NextLink>
       </Card>
       <Box sx={{ mt: 1 }} className='fadeIn'>
         <Typography fontWeight={700}>{product.title}</Typography>

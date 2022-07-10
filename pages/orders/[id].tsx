@@ -9,19 +9,41 @@ import {
   Box,
   Button,
   Link,
+  Chip,
 } from "@mui/material";
 import CartList from "../../components/cart/CartList";
 import OrderSummary from "../../components/cart/OrderSummary";
 import ShopLayout from "../../components/layouts/ShopLayout";
+import {
+  CreditCardOffOutlined,
+  CreditScoreOutlined,
+} from "@mui/icons-material";
 
 interface Props {}
 
-const Summary: FC<Props> = () => {
+const OrderPage: FC<Props> = () => {
   return (
-    <ShopLayout title='Your Order Summary' pageDescription='Your order summary'>
+    <ShopLayout
+      title='Order 5252 Summary'
+      pageDescription='Please check if everything is correct'
+    >
       <Typography variant='h1' component='h1'>
-        Order Summary
+        Order 5252
       </Typography>
+      {/* <Chip
+        sx={{ my: 2 }}
+        label='Pending Payment'
+        variant='outlined'
+        color='error'
+        icon={<CreditCardOffOutlined />}
+      /> */}
+      <Chip
+        sx={{ my: 2 }}
+        label='Already Paid'
+        variant='outlined'
+        color='success'
+        icon={<CreditScoreOutlined />}
+      />
       <Grid container sx={{ mt: 2 }} spacing={2}>
         <Grid item xs={12} sm={7}>
           <CartList />
@@ -52,9 +74,17 @@ const Summary: FC<Props> = () => {
               <OrderSummary />
 
               <Box sx={{ mt: 3 }}>
-                <Button color='secondary' className='circular-btn' fullWidth>
-                  Confirm Order
-                </Button>
+                {/* todo */}
+                {/* <Button color='secondary' className='circular-btn' fullWidth>
+                  Pay Order
+                </Button> */}
+                <Chip
+                  sx={{ my: 2 }}
+                  label='Already Paid'
+                  variant='outlined'
+                  color='success'
+                  icon={<CreditScoreOutlined />}
+                />
               </Box>
             </CardContent>
           </Card>
@@ -64,4 +94,4 @@ const Summary: FC<Props> = () => {
   );
 };
 
-export default Summary;
+export default OrderPage;

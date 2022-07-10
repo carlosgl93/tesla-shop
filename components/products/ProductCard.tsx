@@ -7,7 +7,6 @@ import {
   CardMedia,
   Box,
   Typography,
-  CircularProgress,
 } from "@mui/material";
 
 import { IProduct } from "../../interfaces";

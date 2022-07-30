@@ -37,7 +37,7 @@ const Login = () => {
           </Grid>
           <Grid item xs={12} display='flex' justifyContent='end'>
             <NextLink href='/auth/signup' passHref>
-              <Link underline='always'>Don't have an account yet?</Link>
+              <Link underline='always'>Dont have an account yet?</Link>
             </NextLink>
           </Grid>
         </Grid>

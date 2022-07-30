@@ -14,10 +14,7 @@ import {
 import CartList from "../../components/cart/CartList";
 import OrderSummary from "../../components/cart/OrderSummary";
 import ShopLayout from "../../components/layouts/ShopLayout";
-import {
-  CreditCardOffOutlined,
-  CreditScoreOutlined,
-} from "@mui/icons-material";
+import { CreditScoreOutlined } from "@mui/icons-material";
 
 interface Props {}
 
@@ -30,13 +27,7 @@ const OrderPage: FC<Props> = () => {
       <Typography variant='h1' component='h1'>
         Order 5252
       </Typography>
-      {/* <Chip
-        sx={{ my: 2 }}
-        label='Pending Payment'
-        variant='outlined'
-        color='error'
-        icon={<CreditCardOffOutlined />}
-      /> */}
+
       <Chip
         sx={{ my: 2 }}
         label='Already Paid'

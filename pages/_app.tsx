@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import { lightTheme } from "../themes";
 import UiProvider from "../context/ui/UiProvider";
+import CartProvider from "../context/cart/CartProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,12 +17,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           fetch(resource, init).then((res) => res.json()),
       }}
     >
-      <UiProvider isMenuOpen={false}>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </UiProvider>
+      <CartProvider>
+        <UiProvider isMenuOpen={false}>
+          <ThemeProvider theme={lightTheme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </UiProvider>
+      </CartProvider>
     </SWRConfig>
   );
 }

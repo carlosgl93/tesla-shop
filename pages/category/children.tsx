@@ -1,13 +1,14 @@
-import { Typography, CircularProgress } from "@mui/material";
 import type { NextPage } from "next";
-import ShopLayout from "../components/layouts/ShopLayout";
-import ProductList from "../components/products/ProductList";
-import FullScreenLoading from "../components/ui/FullScreenLoading";
-import { useProducts } from "../hooks";
+import { Typography } from "@mui/material";
+
+import ShopLayout from "../../components/layouts/ShopLayout";
+import ProductList from "../../components/products/ProductList";
+import FullScreenLoading from "../../components/ui/FullScreenLoading";
+import { useProducts } from "../../hooks";
 // import { initialData } from "../database/products";
 
 const Home: NextPage = () => {
-  const { products, isLoading, isError } = useProducts("/products");
+  const { products, isLoading, isError } = useProducts("/products?gender=kid");
 
   return (
     <ShopLayout
@@ -15,7 +16,7 @@ const Home: NextPage = () => {
       pageDescription={"Best Teslo products here!"}
     >
       <Typography variant='h1' component='h1'>
-        Home
+        Children Clothes
       </Typography>
       <Typography variant='h2' sx={{ mb: 1 }}>
         All Products

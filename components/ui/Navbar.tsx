@@ -1,4 +1,5 @@
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import {
   AppBar,
   Badge,
@@ -10,8 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { SearchOutlined, ShoppingCartOutlined } from "@mui/icons-material";
+import { UiContext } from "../../context";
+import { useContext } from "react";
 
 const Navbar = () => {
+  const { asPath } = useRouter();
+
+  const { toggleSideMenu } = useContext(UiContext);
+
   return (
     <AppBar>
       <Toolbar>
@@ -27,17 +34,41 @@ const Navbar = () => {
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <NextLink href='/category/men'>
             <Link>
-              <Button>Men</Button>
+              <Button
+                style={{
+                  backgroundColor:
+                    asPath === "/category/men" ? "black" : "white",
+                  color: asPath === "/category/men" ? "white" : "black",
+                }}
+              >
+                Men
+              </Button>
             </Link>
           </NextLink>
           <NextLink href='/category/women'>
             <Link>
-              <Button>Women</Button>
+              <Button
+                style={{
+                  backgroundColor:
+                    asPath === "/category/women" ? "black" : "white",
+                  color: asPath === "/category/women" ? "white" : "black",
+                }}
+              >
+                Women
+              </Button>
             </Link>
           </NextLink>
           <NextLink href='/category/children'>
             <Link>
-              <Button>Children</Button>
+              <Button
+                style={{
+                  backgroundColor:
+                    asPath === "/category/children" ? "black" : "white",
+                  color: asPath === "/category/children" ? "white" : "black",
+                }}
+              >
+                Children
+              </Button>
             </Link>
           </NextLink>
         </Box>
@@ -55,7 +86,7 @@ const Navbar = () => {
             </IconButton>
           </Link>
         </NextLink>
-        <Button>Menu</Button>
+        <Button onClick={() => toggleSideMenu()}>Menu</Button>
       </Toolbar>
     </AppBar>
   );

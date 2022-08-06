@@ -20,20 +20,6 @@ export default function (req, res) {
   }
 }
 
-const getProductBySlug = async (req, res) => {
-  const { slug } = req.query;
-
-  await db.connect();
-
-  const product = await Product.findById(slug);
-
-  console.log(product);
-
-  await db.disconnect();
-
-  return res.status(200).json({ product });
-};
-
 const getProducts = async (req, res) => {
   const { gender = "all" } = req.query;
 

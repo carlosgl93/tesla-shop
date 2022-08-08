@@ -1,14 +1,16 @@
 import { Box, Button } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import { ICartProduct } from "../../interfaces";
 import { ISize } from "../../interfaces/products";
 
 interface Props {
   selectedSize?: ISize;
   sizes: ISize[];
+  onSelectedSize: (size: ISize) => void;
 }
 
-const SizeSelector: FC<Props> = ({ selectedSize, sizes }) => {
-  const [selectSize, setSelectSize] = useState(selectedSize);
+const SizeSelector: FC<Props> = ({ selectedSize, sizes, onSelectedSize }) => {
+  // const [selectSize, setSelectSize] = useState(selectedSize);
 
   return (
     <Box>
@@ -16,7 +18,10 @@ const SizeSelector: FC<Props> = ({ selectedSize, sizes }) => {
         <Button
           key={size}
           size='small'
-          color={selectedSize === size ? "secondary" : "info"}
+          color={selectedSize === size ? "primary" : "info"}
+          onClick={() => {
+            onSelectedSize(size);
+          }}
         >
           {size}
         </Button>

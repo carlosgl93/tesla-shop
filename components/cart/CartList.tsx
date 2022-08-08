@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import NextLink from "next/link";
 import {
   Box,
@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { initialData } from "../../database/products";
 import ItemCounter from "../ui/ItemCounter";
+import { CartContext } from "../../context/cart/CartContext";
 
 interface Props {
   editable?: boolean;
@@ -23,9 +24,11 @@ const productsInCart = [
 ];
 
 const CartList: FC<Props> = ({ editable = false }) => {
+  const { cart } = useContext(CartContext);
+
   return (
     <>
-      {productsInCart.map((product) => (
+      {cart.map((product) => (
         <Grid container spacing={2} sx={{ mb: 1 }} key={product.slug}>
           <Grid item xs={3} sm={3}>
             {/* todo href to productpage */}
@@ -33,7 +36,7 @@ const CartList: FC<Props> = ({ editable = false }) => {
               <Link>
                 <CardActionArea>
                   <CardMedia
-                    image={`/products/${product.images[0]}`}
+                    image={`/products/${product.image}`}
                     component='img'
                     sx={{ borderRadius: "5px" }}
                   />
@@ -47,7 +50,18 @@ const CartList: FC<Props> = ({ editable = false }) => {
               <Typography variant='body1'>
                 Size: <strong>M</strong>
               </Typography>
-              {editable ? <ItemCounter /> : <Typography>3 items</Typography>}
+              {editable ? (
+                <></>
+              ) : (
+                // <ItemCounter
+                //   addQuantity={}
+                //   substractQuantity={}
+                //   itemQuantity={}
+                //   inStock={}
+                //   showAlert={}
+                // />
+                <Typography>3 items</Typography>
+              )}
             </Box>
           </Grid>
           <Grid

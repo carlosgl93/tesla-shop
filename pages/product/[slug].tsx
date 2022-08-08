@@ -1,28 +1,81 @@
-import { FC } from "react";
+import { FC, useContext, useState } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
 
-import {
-  Box,
-  Button,
-  Chip,
-  CircularProgress,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Chip, Grid, Typography } from "@mui/material";
 import ShopLayout from "../../components/layouts/ShopLayout";
 import ProductSlideShow from "../../components/products/ProductSlideShow";
 import SizeSelector from "../../components/products/SizeSelector";
 import ItemCounter from "../../components/ui/ItemCounter";
-import { IProduct } from "../../interfaces";
+import { ICartProduct, IProduct, ISize } from "../../interfaces";
 import { dbProducts } from "../../database";
-
-// const product = initialData.products[0];
+import { CartContext } from "../../context";
+import { GifBox } from "@mui/icons-material";
 
 interface Props {
   product: IProduct;
 }
 
 const ProductPage: FC<Props> = ({ product }) => {
+  const router = useRouter();
+  const [showAlert, setShowAlert] = useState(false);
+
+  const { addProductToCart, cart } = useContext(CartContext);
+
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
+    _id: product._id,
+    image: product.images[0],
+    price: product.price,
+    size: undefined,
+    slug: product.slug,
+    title: product.title,
+    gender: product.gender,
+    quantity: 1,
+    inStock: product.inStock,
+  });
+
+  console.log({ cart });
+
+  const selectSize = (size: ISize) => {
+    setTempCartProduct((currentProduct) => ({
+      ...currentProduct,
+      size,
+    }));
+  };
+
+  const addQuantity = () => {
+    if (tempCartProduct.quantity < tempCartProduct.inStock) {
+      setTempCartProduct((currentProduct) => ({
+        ...currentProduct,
+        quantity: currentProduct.quantity + 1,
+      }));
+    } else if (tempCartProduct.quantity === tempCartProduct.inStock) {
+      setShowAlert(true);
+    }
+  };
+
+  const substractQuantity = () => {
+    setShowAlert(false);
+    if (tempCartProduct.quantity > 1) {
+      setTempCartProduct((currentProduct) => ({
+        ...currentProduct,
+        quantity: currentProduct.quantity - 1,
+      }));
+    } else return;
+  };
+
+  const onAddProduct = () => {
+    if (!tempCartProduct.size) {
+      return;
+    } else {
+      addProductToCart(tempCartProduct);
+      setShowSuggestion(true);
+    }
+
+    // todo call the context action to add to cart
+  };
+
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
       <Grid container spacing={1}>
@@ -41,10 +94,18 @@ const ProductPage: FC<Props> = ({ product }) => {
               <Typography variant='subtitle2' component='h6'>
                 Quantity
               </Typography>
-              <ItemCounter />
+              <ItemCounter
+                addQuantity={addQuantity}
+                substractQuantity={substractQuantity}
+                itemQuantity={tempCartProduct.quantity}
+                inStock={tempCartProduct.inStock}
+                showAlert={showAlert}
+              />
               <SizeSelector
                 // selectedSize={product.sizes[0]}
                 sizes={product.sizes}
+                selectedSize={tempCartProduct.size}
+                onSelectedSize={(size) => selectSize(size)}
               />
             </Box>
 
@@ -55,9 +116,31 @@ const ProductPage: FC<Props> = ({ product }) => {
                 variant='outlined'
               />
             ) : (
-              <Button color='secondary' className='circular-btn'>
-                Add to Cart
+              <Button
+                color='secondary'
+                className='circular-btn'
+                onClick={() => onAddProduct()}
+              >
+                {tempCartProduct.size ? "Add to Cart" : "Select a size"}
               </Button>
+            )}
+
+            {showSuggestion && (
+              <Box
+                sx={{
+                  mt: "2vh",
+                }}
+                display='flex'
+                justifyContent='space-around'
+              >
+                <Button onClick={() => router.push("/cart")}>
+                  Review my shopping cart
+                </Button>
+
+                <Button onClick={() => router.push("/checkout/summary")}>
+                  Go to checkout
+                </Button>
+              </Box>
             )}
             <Box sx={{ mt: 3 }}>
               <Typography variant='subtitle2'>Description</Typography>

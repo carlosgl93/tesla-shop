@@ -133,7 +133,7 @@ const Navbar = () => {
           <SearchOutlined />
         </IconButton>
         <NextLink href='/cart'>
-          <Link>
+          <Link sx={{ mr: "1vw" }}>
             <IconButton>
               <Badge badgeContent={2} color='secondary'>
                 <ShoppingCartOutlined />

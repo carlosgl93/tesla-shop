@@ -44,6 +44,13 @@ const ProductPage: FC<Props> = ({ product }) => {
     }));
   };
 
+  const onUpdateQuantity = (quantity: number) => {
+    setTempCartProduct((currentProduct) => ({
+      ...currentProduct,
+      quantity,
+    }));
+  };
+
   const addQuantity = () => {
     if (tempCartProduct.quantity < tempCartProduct.inStock) {
       setTempCartProduct((currentProduct) => ({
@@ -95,11 +102,9 @@ const ProductPage: FC<Props> = ({ product }) => {
                 Quantity
               </Typography>
               <ItemCounter
-                addQuantity={addQuantity}
-                substractQuantity={substractQuantity}
-                itemQuantity={tempCartProduct.quantity}
-                inStock={tempCartProduct.inStock}
-                showAlert={showAlert}
+                currentValue={tempCartProduct.quantity}
+                updatedQuantity={onUpdateQuantity}
+                maxValue={product.inStock}
               />
               <SizeSelector
                 // selectedSize={product.sizes[0]}

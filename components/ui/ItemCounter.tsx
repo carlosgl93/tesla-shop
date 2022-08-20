@@ -1,37 +1,50 @@
+import React, { FC, useContext, useState } from "react";
+
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 import { Box, Chip, IconButton, Typography } from "@mui/material";
-import React, { FC } from "react";
 
 interface Props {
-  addQuantity: () => void;
-  substractQuantity: () => void;
-  itemQuantity: number;
-  inStock: number;
-  showAlert: boolean;
+  currentValue: number;
+  maxValue: number;
+  updatedQuantity: (newValue: number) => void;
 }
 
 const ItemCounter: FC<Props> = ({
-  addQuantity,
-  substractQuantity,
-  itemQuantity,
-  inStock,
-  showAlert,
+  currentValue,
+  maxValue,
+  updatedQuantity,
 }) => {
+  const [showAlert, setShowAlert] = useState(false);
+
+  const addOrRemove = (value: number) => {
+    if (value === -1) {
+      if (currentValue === 1) return;
+      setShowAlert(false);
+      return updatedQuantity(currentValue - 1);
+    }
+    if (currentValue >= maxValue) {
+      setShowAlert(true);
+      return;
+    }
+
+    updatedQuantity(currentValue + 1);
+  };
+
   return (
     <Box display='flex' flexDirection='row'>
-      <IconButton onClick={() => substractQuantity()}>
+      <IconButton onClick={() => addOrRemove(-1)}>
         <RemoveCircleOutline />
       </IconButton>
       <Typography sx={{ width: 40, textAlign: "center", pt: 1 }}>
-        {itemQuantity}
+        {currentValue}
       </Typography>
-      <IconButton onClick={() => addQuantity()}>
+      <IconButton onClick={() => addOrRemove(+1)}>
         <AddCircleOutline />
       </IconButton>
       {showAlert && (
         <Chip
           color='primary'
-          label={`There is no more stock than ${inStock} items`}
+          label={`There is no more stock than ${maxValue} items`}
         />
       )}
     </Box>

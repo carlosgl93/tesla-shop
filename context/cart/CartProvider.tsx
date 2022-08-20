@@ -89,6 +89,10 @@ const CartProvider: FC<PropsWithChildren<CartState>> = ({ children }) => {
     });
   };
 
+  const removeProductFromCart = (product: ICartProduct) => {
+    dispatch({ type: "Cart - Remove product in cart", payload: product });
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -97,6 +101,7 @@ const CartProvider: FC<PropsWithChildren<CartState>> = ({ children }) => {
         // methods
         addProductToCart,
         loadCartFromCookies,
+        removeProductFromCart,
         updateCartQuantity,
       }}
     >

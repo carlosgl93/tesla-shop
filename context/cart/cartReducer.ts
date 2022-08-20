@@ -1,4 +1,4 @@
-import { ICartProduct } from "../../interfaces";
+import { ICartProduct, OrderSummary } from "../../interfaces";
 import { CartState } from "./";
 
 type CartActionType =
@@ -17,6 +17,10 @@ type CartActionType =
   | {
       type: "Cart - Remove product in cart";
       payload: ICartProduct;
+    }
+  | {
+      type: "Cart - Update order summary";
+      payload: OrderSummary;
     };
 
 export const cartReducer = (
@@ -50,6 +54,11 @@ export const cartReducer = (
             _product._id !== action.payload._id &&
             _product.size !== action.payload.size
         ),
+      };
+    case "Cart - Update order summary":
+      return {
+        ...state,
+        ...action.payload,
       };
     default:
       return state;

@@ -17,7 +17,7 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
-import { UiContext } from "../../context";
+import { CartContext, UiContext } from "../../context";
 import { useContext, useState } from "react";
 
 const Navbar = () => {
@@ -32,6 +32,8 @@ const Navbar = () => {
   };
 
   const { toggleSideMenu } = useContext(UiContext);
+
+  const { numberOfItems } = useContext(CartContext);
 
   return (
     <AppBar>
@@ -135,7 +137,10 @@ const Navbar = () => {
         <NextLink href='/cart'>
           <Link sx={{ mr: "1vw" }}>
             <IconButton>
-              <Badge badgeContent={2} color='secondary'>
+              <Badge
+                badgeContent={numberOfItems > 9 ? "+9" : numberOfItems}
+                color='secondary'
+              >
                 <ShoppingCartOutlined />
               </Badge>
             </IconButton>

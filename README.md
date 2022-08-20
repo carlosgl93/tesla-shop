@@ -26,6 +26,8 @@ Renombrar el archivo **.env.template** a **.env**
 MONGO_URL=mongodb://localhost:27017/teslodb
 ```
 
+- Set tax rate value!
+
 - Reconstruir los modulos de node y levantar Next
 
 ```

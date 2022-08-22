@@ -35,8 +35,6 @@ const ProductPage: FC<Props> = ({ product }) => {
     inStock: product.inStock,
   });
 
-  console.log({ cart });
-
   const selectSize = (size: ISize) => {
     setTempCartProduct((currentProduct) => ({
       ...currentProduct,

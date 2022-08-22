@@ -17,8 +17,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           fetch(resource, init).then((res) => res.json()),
       }}
     >
-      <CartProvider cart={[]}>
-        <UiProvider isMenuOpen={false}>
+      <CartProvider cart={[]} numberOfItems={0} subTotal={0} tax={0} total={0}>
+        <UiProvider isMenuOpen={false} showSnackbar={false}>
           <ThemeProvider theme={lightTheme}>
             <CssBaseline />
             <Component {...pageProps} />

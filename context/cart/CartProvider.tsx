@@ -71,8 +71,6 @@ const CartProvider: FC<PropsWithChildren<CartState>> = ({ children }) => {
       type: "Cart - Update order summary",
       payload: orderSummary,
     });
-
-    console.log(orderSummary);
   }, [state.cart]);
 
   const loadCartFromCookies = (cookie: ICartProduct[]) => {
@@ -129,8 +127,6 @@ const CartProvider: FC<PropsWithChildren<CartState>> = ({ children }) => {
   const removeProductFromCart = (product: ICartProduct) => {
     dispatch({ type: "Cart - Remove product in cart", payload: product });
   };
-
-  console.log(state);
 
   return (
     <CartContext.Provider

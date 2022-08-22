@@ -1,12 +1,17 @@
 import { Box } from "@mui/material";
 import Head from "next/head";
-import React, { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren, useContext } from "react";
+import { UiContext } from "../../context";
+import SnackbarAlert from "../ui/SnackbarAlert";
 
 interface Props {
   title: string;
 }
 
 const AuthLayout: FC<PropsWithChildren<Props>> = ({ children, title }) => {
+  const { showSnackbar, snackbarMessage, snackbarSeverity } =
+    useContext(UiContext);
+
   return (
     <>
       <Head>
@@ -21,6 +26,12 @@ const AuthLayout: FC<PropsWithChildren<Props>> = ({ children, title }) => {
         >
           {children}
         </Box>
+        {showSnackbar && (
+          <SnackbarAlert
+            message={snackbarMessage}
+            severity={snackbarSeverity}
+          />
+        )}
       </main>
     </>
   );

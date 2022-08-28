@@ -1,20 +1,13 @@
 import React, { useContext, useState } from "react";
 import NextLink from "next/link";
-import {
-  AlertColor,
-  Box,
-  Button,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { useRouter } from "next/router";
+import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { useForm } from "react-hook-form";
 import { tesloApi } from "../../api";
 import { validations } from "../../utils";
-import { UiContext } from "../../context";
+import { AuthContext, UiContext } from "../../context";
 
 type FormData = {
   name: string;
@@ -32,9 +25,8 @@ const Signup = () => {
 
   const { toggleSnackbar } = useContext(UiContext);
 
-  const [open, setOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setsnackbarSeverity] = useState<AlertColor>("info");
+  const { registerUser } = useContext(AuthContext);
+  const router = useRouter();
 
   const onRegisterUser = async ({
     email,
@@ -42,29 +34,17 @@ const Signup = () => {
     name,
     lastname,
   }: FormData) => {
-    setOpen(false);
-    try {
-      const { data } = await tesloApi.post("/user/register", {
-        email,
-        password,
-        name,
-      });
+    const response = await registerUser(name, email, password);
 
-      const { token, user } = data;
-      console.log({ token, user });
-    } catch (error) {
-      toggleSnackbar("Error creating your account", "error");
-      setOpen(true);
-      setSnackbarMessage("Verify the information typed.");
-      setsnackbarSeverity("error");
-      console.log(error);
+    if (response) {
+      router.replace("/");
     }
 
     // todo: go to the page the user was before logging
   };
 
   return (
-    <AuthLayout title='Sign in to Teslo Shop'>
+    <AuthLayout title='Sign up and begin shopping!'>
       <form onSubmit={handleSubmit(onRegisterUser)} noValidate>
         <Box sx={{ width: 350, padding: "10px 20px" }}>
           <Grid container spacing={2}>
@@ -80,6 +60,10 @@ const Signup = () => {
                 fullWidth
                 {...register("name", {
                   required: "This field is required",
+                  minLength: {
+                    value: 2,
+                    message: "Name must be at least 2 characters long",
+                  },
                 })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
@@ -92,6 +76,10 @@ const Signup = () => {
                 fullWidth
                 {...register("lastname", {
                   required: "This field is required",
+                  minLength: {
+                    value: 2,
+                    message: "Lastname must be at least 2 characters long",
+                  },
                 })}
                 error={!!errors.lastname}
                 helperText={errors.lastname?.message}

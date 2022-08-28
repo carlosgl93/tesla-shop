@@ -25,7 +25,10 @@ const UiProvider: FC<PropsWithChildren<UiState>> = ({ children }) => {
     dispatch({ type: "[UI] - Toggle Menu" });
   };
 
-  const toggleSnackbar = (message?: string, severity?: AlertColor) => {
+  const toggleSnackbar = (
+    message: string = "",
+    severity: AlertColor = "info"
+  ) => {
     dispatch({
       type: "[UI] - Toggle Snackbar",
       payload: {

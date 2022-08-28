@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import {
   Alert,
   AlertColor,
@@ -15,8 +16,8 @@ import {
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { useForm } from "react-hook-form";
 import { validations } from "../../utils";
-import { tesloApi } from "../../api";
-import { AxiosError } from "axios";
+
+import { AuthContext, UiContext } from "../../context";
 
 type FormData = {
   email: string;
@@ -30,37 +31,17 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const [open, setOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setsnackbarSeverity] = useState<AlertColor>("info");
-
-  console.log({ errors });
+  const router = useRouter();
+  const { userLogin } = useContext(AuthContext);
 
   const onLoginUser = async ({ email, password }: FormData) => {
-    setOpen(false);
-    try {
-      const { data } = await tesloApi.post("/user/login", { email, password });
+    const isValidLogin = await userLogin(email, password);
 
-      const { token, user } = data;
-      console.log({ token, user });
-    } catch (error) {
-      setOpen(true);
-      setSnackbarMessage("Verify the information typed.");
-      setsnackbarSeverity("error");
-      console.log(error);
+    if (isValidLogin) {
+      router.replace("/");
     }
 
     // todo: go to the page the user was before logging
-  };
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
   };
 
   return (
@@ -118,13 +99,14 @@ const Login = () => {
             </Grid>
             <Grid item xs={12} display='flex' justifyContent='end'>
               <NextLink href='/auth/signup' passHref>
-                <Link underline='always'>Dont have an account yet?</Link>
+                <Link underline='always'>Don't have an account yet?</Link>
               </NextLink>
             </Grid>
           </Grid>
         </Box>
       </form>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      {/* <SnackbarAlert message={snackbarMessage} severity={snackbarSeverity} /> */}
+      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert
           onClose={handleClose}
           severity={snackbarSeverity}
@@ -132,7 +114,7 @@ const Login = () => {
         >
           {snackbarMessage}
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
     </AuthLayout>
   );
 };

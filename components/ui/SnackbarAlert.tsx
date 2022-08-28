@@ -28,7 +28,7 @@ const SnackbarAlert: FC<Props> = ({ message, severity }) => {
   };
 
   return (
-    <Snackbar open={showSnackbar} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={showSnackbar} autoHideDuration={3000} onClose={handleClose}>
       <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
         {message}
       </Alert>

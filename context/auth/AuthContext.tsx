@@ -11,5 +11,6 @@ interface ContextProps {
     email: string,
     password: string
   ) => Promise<boolean>;
+  checkToken: () => Promise<void>;
 }
 export const AuthContext = createContext({} as ContextProps);

@@ -2,6 +2,7 @@ import React, {
   FC,
   PropsWithChildren,
   useContext,
+  useEffect,
   useReducer,
   useState,
 } from "react";
@@ -19,14 +20,36 @@ export interface AuthState {
   user?: IUser;
 }
 
-const Auth_INITIAL_STATE: AuthState = {
+const AUTH_INITIAL_STATE: AuthState = {
   isLoggedIn: false,
 };
 
 const AuthProvider: FC<PropsWithChildren<AuthState>> = ({ children }) => {
   const { toggleSnackbar } = useContext(UiContext);
 
-  const [state, dispatch] = useReducer(authReducer, Auth_INITIAL_STATE);
+  const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  const checkToken = async () => {
+    // llamar endpoint validate-token
+
+    try {
+      const { data } = await tesloApi.get("/user/validate-token");
+
+      const { token, user } = data;
+      Cookies.set("token", token);
+
+      toggleSnackbar(`Welcome back ${user.name}`, "success");
+      dispatch({ type: "Auth - Login", payload: user });
+    } catch (error) {
+      toggleSnackbar("Please login again", "error");
+      console.log(error);
+      Cookies.remove("token");
+    }
+  };
 
   const userLogin = async (
     email: string,
@@ -92,6 +115,7 @@ const AuthProvider: FC<PropsWithChildren<AuthState>> = ({ children }) => {
         // Methods
         userLogin,
         registerUser,
+        checkToken,
       }}
     >
       {children}

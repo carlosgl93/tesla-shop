@@ -30,8 +30,6 @@ const getProducts = async (req, res) => {
     condition = { gender };
   }
 
-  console.log(`condition`, condition);
-
   await db.connect();
 
   const products = await Product.find(condition)

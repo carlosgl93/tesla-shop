@@ -15,8 +15,9 @@ const SizeSelector: FC<Props> = ({ selectedSize, sizes }) => {
       {sizes.map((size) => (
         <Button
           key={size}
-          size='small'
-          color={selectedSize === size ? "secondary" : "info"}
+          size="small"
+          color={selectSize === size ? "primary" : "info"}
+          onClick={() => setSelectSize(size)}
         >
           {size}
         </Button>

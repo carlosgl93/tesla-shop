@@ -24,19 +24,22 @@ const getProductBySlug = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  const { slug } = req.query;
+  try {
+    const { slug } = req.query;
 
-  await db.connect();
+    await db.connect();
 
-  const product = await Product.findOne({ slug }).lean();
+    const product = await Product.findOne({ slug }).lean();
 
-  if (!product) {
-    return res.status(404).json({
-      message: "Product not found",
-    });
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    await db.disconnect();
+    return res.status(200).json(product);
+  } catch (e) {
+    return new Error("Error requesting product slug");
   }
-
-  await db.disconnect();
-
-  return res.status(200).json(product);
 };

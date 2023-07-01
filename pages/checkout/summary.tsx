@@ -18,8 +18,8 @@ interface Props {}
 
 const Summary: FC<Props> = () => {
   return (
-    <ShopLayout title='Your Order Summary' pageDescription='Your order summary'>
-      <Typography variant='h1' component='h1'>
+    <ShopLayout title="Order Summary" pageDescription="order summary">
+      <Typography variant="h1" component="h1">
         Order Summary
       </Typography>
       <Grid container sx={{ mt: 2 }} spacing={2}>
@@ -27,32 +27,32 @@ const Summary: FC<Props> = () => {
           <CartList />
         </Grid>
         <Grid item xs={12} sm={5}>
-          <Card className='summary-card'>
+          <Card className="summary-card">
             <CardContent>
               <Typography>Order Summary</Typography>
               <Divider sx={{ my: 2 }} />
 
-              <Box display='flex' justifyContent='space-between'>
-                <Typography variant='subtitle1'>Delivery Address</Typography>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="subtitle1">Delivery Address</Typography>
 
                 <NextLink href={"/checkout/address"} passHref>
-                  <Link underline='always'>Edit</Link>
+                  <Link underline="always">Edit</Link>
                 </NextLink>
               </Box>
               <Typography>Carlos Gumucio</Typography>
               <Typography>Copihue 2884</Typography>
               <Typography>Stgo, Chile</Typography>
 
-              <Box display='flex' justifyContent='space-between' sx={{ mt: 1 }}>
-                <Typography variant='subtitle1'>Order Details</Typography>
+              <Box display="flex" justifyContent="space-between" sx={{ mt: 1 }}>
+                <Typography variant="subtitle1">Order Details</Typography>
                 <NextLink href={"/cart"} passHref>
-                  <Link underline='always'>Edit</Link>
+                  <Link underline="always">Edit</Link>
                 </NextLink>
               </Box>
               <OrderSummary />
 
               <Box sx={{ mt: 3 }}>
-                <Button color='secondary' className='circular-btn' fullWidth>
+                <Button color="secondary" className="circular-btn" fullWidth>
                   Confirm Order
                 </Button>
               </Box>

@@ -21,18 +21,26 @@ interface Props {}
 const OrderPage: FC<Props> = () => {
   return (
     <ShopLayout
-      title='Order 5252 Summary'
-      pageDescription='Please check if everything is correct'
+      title="Order 5252 Summary"
+      pageDescription="Please check if everything is correct"
     >
-      <Typography variant='h1' component='h1'>
+      <Typography variant="h1" component="h1">
         Order 5252
       </Typography>
 
+      {/* <Chip
+        sx={{ my: 2 }}
+        label="Payment Pending"
+        variant="outlined"
+        color="error"
+        icon={<CreditScoreOutlined />}
+      /> */}
+
       <Chip
         sx={{ my: 2 }}
-        label='Already Paid'
-        variant='outlined'
-        color='success'
+        label="Already Paid"
+        variant="outlined"
+        color="success"
         icon={<CreditScoreOutlined />}
       />
       <Grid container sx={{ mt: 2 }} spacing={2}>
@@ -40,26 +48,26 @@ const OrderPage: FC<Props> = () => {
           <CartList />
         </Grid>
         <Grid item xs={12} sm={5}>
-          <Card className='summary-card'>
+          <Card className="summary-card">
             <CardContent>
               <Typography>Order Summary</Typography>
               <Divider sx={{ my: 2 }} />
 
-              <Box display='flex' justifyContent='space-between'>
-                <Typography variant='subtitle1'>Delivery Address</Typography>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="subtitle1">Delivery Address</Typography>
 
                 <NextLink href={"/checkout/address"} passHref>
-                  <Link underline='always'>Edit</Link>
+                  <Link underline="always">Edit</Link>
                 </NextLink>
               </Box>
               <Typography>Carlos Gumucio </Typography>
               <Typography>Copihue 2884</Typography>
               <Typography>Stgo, Chile</Typography>
 
-              <Box display='flex' justifyContent='space-between' sx={{ mt: 1 }}>
-                <Typography variant='subtitle1'>Order Details</Typography>
+              <Box display="flex" justifyContent="space-between" sx={{ mt: 1 }}>
+                <Typography variant="subtitle1">Order Details</Typography>
                 <NextLink href={"/cart"} passHref>
-                  <Link underline='always'>Edit</Link>
+                  <Link underline="always">Edit</Link>
                 </NextLink>
               </Box>
               <OrderSummary />
@@ -71,9 +79,9 @@ const OrderPage: FC<Props> = () => {
                 </Button> */}
                 <Chip
                   sx={{ my: 2 }}
-                  label='Already Paid'
-                  variant='outlined'
-                  color='success'
+                  label="Already Paid"
+                  variant="outlined"
+                  color="success"
                   icon={<CreditScoreOutlined />}
                 />
               </Box>

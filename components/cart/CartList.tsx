@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import NextLink from "next/link";
 import {
   Box,
@@ -23,18 +23,20 @@ const productsInCart = [
 ];
 
 const CartList: FC<Props> = ({ editable = false }) => {
+  const [inCartProducts, setInCartProducts] = useState(productsInCart);
+
   return (
     <>
-      {productsInCart.map((product) => (
+      {inCartProducts.map((product) => (
         <Grid container spacing={2} sx={{ mb: 1 }} key={product.slug}>
           <Grid item xs={3} sm={3}>
             {/* todo href to productpage */}
-            <NextLink href='/product/slug' passHref>
+            <NextLink href="/product/slug" passHref>
               <Link>
                 <CardActionArea>
                   <CardMedia
                     image={`/products/${product.images[0]}`}
-                    component='img'
+                    component="img"
                     sx={{ borderRadius: "5px" }}
                   />
                 </CardActionArea>
@@ -42,9 +44,9 @@ const CartList: FC<Props> = ({ editable = false }) => {
             </NextLink>
           </Grid>
           <Grid item xs={9} sm={7}>
-            <Box display='flex' flexDirection='column'>
-              <Typography variant='body1'>{product.title}</Typography>
-              <Typography variant='body1'>
+            <Box display="flex" flexDirection="column">
+              <Typography variant="body1">{product.title}</Typography>
+              <Typography variant="body1">
                 Size: <strong>M</strong>
               </Typography>
               {editable ? <ItemCounter /> : <Typography>3 items</Typography>}
@@ -54,14 +56,22 @@ const CartList: FC<Props> = ({ editable = false }) => {
             item
             xs={12}
             sm={2}
-            display='flex'
-            alignItems='center'
+            display="flex"
+            alignItems="center"
             sx={{ flexDirection: { xs: "row", sm: "column" } }}
-            justifyContent='space-between'
+            justifyContent="space-between"
           >
-            <Typography variant='subtitle1'>{`$${product.price}`}</Typography>
+            <Typography variant="subtitle1">{`$${product.price}`}</Typography>
             {editable && (
-              <Button variant='text' color='secondary'>
+              <Button
+                variant="text"
+                color="secondary"
+                onClick={() =>
+                  setInCartProducts((prev) =>
+                    prev.filter((p) => product.slug !== p.slug)
+                  )
+                }
+              >
                 Remove
               </Button>
             )}

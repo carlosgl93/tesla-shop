@@ -10,7 +10,7 @@ interface Props {
 
 const ProductSlideShow: FC<Props> = ({ images }) => {
   return (
-    <Slide easing='ease' duration={7000} indicators>
+    <Slide easing="ease" duration={7000} indicators>
       {images.map((image) => {
         const url = `/products/${image}`;
         return (
@@ -18,7 +18,7 @@ const ProductSlideShow: FC<Props> = ({ images }) => {
             <div
               style={{
                 backgroundImage: `url(${url})`,
-                backgroundSize: "cover",
+                backgroundSize: "contain",
               }}
             ></div>
           </div>

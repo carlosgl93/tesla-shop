@@ -28,23 +28,27 @@ const searchProducts = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  let { query = "" } = req.query;
+  try {
+    let { query = "" } = req.query;
 
-  await db.connect();
+    await db.connect();
 
-  if (query.length === 0) {
-    return res.status(400).json({ message: "You must enter a search value" });
+    if (query.length === 0) {
+      return res.status(400).json({ message: "You must enter a search value" });
+    }
+
+    query = query.toString().toLowerCase();
+
+    const products = await Product.find({
+      $text: { $search: query },
+    })
+      .select("title images price inStock slug -_id")
+      .lean();
+
+    await db.disconnect();
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return error;
   }
-
-  query = query.toString().toLowerCase();
-
-  const products = await Product.find({
-    $text: { $search: query },
-  })
-    .select("title images price inStock slug -_id")
-    .lean();
-
-  await db.disconnect();
-
-  return res.status(200).json(products);
 };

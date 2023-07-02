@@ -26,7 +26,6 @@ import {
 import { UiContext } from "../../context/ui";
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
-import NextLink from "next/link";
 
 export const SideMenu = () => {
   const { isMenuOpen, toggleSideMenu } = useContext(UiContext);
@@ -53,7 +52,11 @@ export const SideMenu = () => {
     >
       <Box sx={{ width: 250, paddingTop: 5 }}>
         <List>
-          <ListItem>
+          <ListItem
+            sx={{
+              display: { xs: "flex", sm: "none" },
+            }}
+          >
             <Input
               autoFocus
               value={searchTerm}

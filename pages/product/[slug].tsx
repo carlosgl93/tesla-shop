@@ -4,11 +4,21 @@ import ShopLayout from "../../components/layouts/ShopLayout";
 import ProductSlideShow from "../../components/products/ProductSlideShow";
 import SizeSelector from "../../components/products/SizeSelector";
 import ItemCounter from "../../components/ui/ItemCounter";
-import { initialData } from "../../database/products";
+import { IProduct } from "../../interfaces";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  NextPage,
+  GetStaticProps,
+} from "next";
 
-const product = initialData.products[0];
+import { dbProducts } from "../../database";
 
-const ProductPage = () => {
+interface Props {
+  product: IProduct;
+}
+
+const ProductPage: NextPage<Props> = ({ product }) => {
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
       <Grid container spacing={3}>
@@ -56,4 +66,58 @@ const ProductPage = () => {
   );
 };
 
+// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+//   const { slug = "" } = params as { slug: string };
+//   const product = await dbProducts.getProductBySlug(slug);
+
+//   if (!product) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   return {
+//     props: {
+//       product,
+//     },
+//   };
+// };
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const slugs = await dbProducts.getAllProductsSlugs();
+
+  return {
+    paths: slugs.map(({ slug }) => ({
+      params: {
+        slug,
+      },
+    })),
+    fallback: "blocking",
+  };
+};
+
 export default ProductPage;
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug = "" } = params as { slug: string };
+
+  const product = await dbProducts.getProductBySlug(slug);
+
+  if (!product)
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+
+  return {
+    props: {
+      product,
+    },
+    revalidate: 60 * 60 * 24,
+  };
+};

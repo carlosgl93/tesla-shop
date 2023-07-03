@@ -7,7 +7,7 @@ interface Props {
   products: IProduct[];
 }
 
-const ProductList: FC<Props> = ({ products }) => {
+export const ProductList: FC<Props> = ({ products }) => {
   return (
     <Grid container spacing={4}>
       {products.length > 0 ? (
@@ -30,5 +30,3 @@ const ProductList: FC<Props> = ({ products }) => {
     </Grid>
   );
 };
-
-export default ProductList;

@@ -20,6 +20,9 @@ const AuthLayout: FC<PropsWithChildren<Props>> = ({ children, title }) => {
           justifyContent="center"
           alignItems="center"
           height="calc(100vh - 200px)"
+          sx={{
+            pt: 10,
+          }}
         >
           {children}
         </Box>

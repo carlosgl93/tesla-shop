@@ -1,15 +1,16 @@
-import { FC, PropsWithChildren } from "react";
+import { FC } from "react";
 import Head from "next/head";
-import Navbar from "../ui/Navbar";
-import SideMenu from "../ui/SideMenu";
+
+import { Navbar, SideMenu } from "../ui";
 
 interface Props {
   title: string;
   pageDescription: string;
   imageFullUrl?: string;
+  children: React.ReactNode;
 }
 
-const ShopLayout: FC<PropsWithChildren<Props>> = ({
+export const ShopLayout: FC<Props> = ({
   children,
   title,
   pageDescription,
@@ -19,16 +20,21 @@ const ShopLayout: FC<PropsWithChildren<Props>> = ({
     <>
       <Head>
         <title>{title}</title>
-        <meta name='description' content={pageDescription} />
-        <meta name='og:title' content={title} />
-        <meta name='og:description' content={pageDescription} />
 
-        {imageFullUrl && <meta name='og:image' content={imageFullUrl} />}
+        <meta name="description" content={pageDescription} />
+
+        <meta name="og:title" content={title} />
+        <meta name="og:description" content={pageDescription} />
+
+        {imageFullUrl && <meta name="og:image" content={imageFullUrl} />}
       </Head>
+
       <nav>
         <Navbar />
       </nav>
+
       <SideMenu />
+
       <main
         style={{
           margin: "80px auto",
@@ -38,9 +44,9 @@ const ShopLayout: FC<PropsWithChildren<Props>> = ({
       >
         {children}
       </main>
-      <footer></footer>
+
+      {/* Footer */}
+      <footer>{/* TODO: mi custom footer */}</footer>
     </>
   );
 };
-
-export default ShopLayout;

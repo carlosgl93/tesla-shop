@@ -8,8 +8,8 @@ import {
   Button,
 } from "@mui/material";
 import React from "react";
-import ShopLayout from "../../components/layouts/ShopLayout";
-import CartList from "../../components/cart/CartList";
+import { ShopLayout } from "../../components/layouts";
+import { CartList } from "../../components/cart";
 import OrderSummary from "../../components/cart/OrderSummary";
 import NextLink from "next/link";
 

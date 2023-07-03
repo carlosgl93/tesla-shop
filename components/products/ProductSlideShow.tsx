@@ -8,7 +8,7 @@ interface Props {
   images: string[];
 }
 
-const ProductSlideShow: FC<Props> = ({ images }) => {
+export const ProductSlideshow: FC<Props> = ({ images }) => {
   return (
     <Slide easing="ease" duration={7000} indicators>
       {images.map((image) => {
@@ -27,5 +27,3 @@ const ProductSlideShow: FC<Props> = ({ images }) => {
     </Slide>
   );
 };
-
-export default ProductSlideShow;

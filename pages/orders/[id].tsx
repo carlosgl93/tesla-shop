@@ -11,9 +11,9 @@ import {
   Link,
   Chip,
 } from "@mui/material";
-import CartList from "../../components/cart/CartList";
+import { CartList } from "../../components/cart";
 import OrderSummary from "../../components/cart/OrderSummary";
-import ShopLayout from "../../components/layouts/ShopLayout";
+import { ShopLayout } from "../../components/layouts";
 import { CreditScoreOutlined } from "@mui/icons-material";
 
 interface Props {}

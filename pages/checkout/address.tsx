@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ShopLayout from "../../components/layouts/ShopLayout";
+import { ShopLayout } from "../../components/layouts";
 import NextLink from "next/link";
 
 const Address = () => {

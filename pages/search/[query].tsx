@@ -1,53 +1,62 @@
 import type { NextPage, GetServerSideProps } from "next";
-import { Typography } from "@mui/material";
-import ShopLayout from "../../components/layouts/ShopLayout";
-import ProductList from "../../components/products/ProductList";
+import { Typography, Box } from "@mui/material";
+
+import { ShopLayout } from "../../components/layouts";
+
+import { ProductList } from "../../components/products";
+
 import { dbProducts } from "../../database";
 import { IProduct } from "../../interfaces";
 
 interface Props {
   products: IProduct[];
-  searchTerm: string;
   foundProducts: boolean;
+  query: string;
 }
 
-const Search: NextPage<Props> = ({ products, searchTerm, foundProducts }) => {
+const SearchPage: NextPage<Props> = ({ products, foundProducts, query }) => {
   return (
     <ShopLayout
-      title={"Tesla Shop - Search Results"}
-      pageDescription={"Best Tesla products here!"}
+      title={"Teslo-Shop - Search"}
+      pageDescription={"Find the best Tesla Products here"}
     >
       <Typography variant="h1" component="h1">
         Search Products
       </Typography>
 
       {foundProducts ? (
-        <>
-          <Typography variant="h2" sx={{ mt: 1, mb: 3 }}>
-            Products found for {searchTerm}
-          </Typography>
-          <ProductList products={products} />
-        </>
+        <Typography variant="h2" sx={{ mb: 1 }} textTransform="capitalize">
+          Término: {query}
+        </Typography>
       ) : (
-        <>
-          <Typography variant="h2" sx={{ mt: 1, mb: 3 }}>
-            No products found for {searchTerm}. Check these ones out!
+        <Box display="flex">
+          <Typography variant="h2" sx={{ mb: 1 }}>
+            We couldnt find any products for the term:
           </Typography>
-          <ProductList products={products} />
-        </>
+          <Typography
+            variant="h2"
+            sx={{ ml: 1 }}
+            color="secondary"
+            textTransform="capitalize"
+          >
+            {query}
+          </Typography>
+        </Box>
       )}
+
+      <ProductList products={products} />
     </ShopLayout>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { query } = params as { query: string };
+  const { query = "" } = params as { query: string };
 
   if (query.length === 0) {
     return {
       redirect: {
         destination: "/",
-        permanent: false,
+        permanent: true,
       },
     };
   }
@@ -55,24 +64,17 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   let products = await dbProducts.getProductsByTerm(query);
   const foundProducts = products.length > 0;
 
-  // if there are no matches, TODO return other products
   if (!foundProducts) {
-    products = await dbProducts.getProductsIfNotFound();
-    return {
-      props: {
-        products,
-        searchTerm: query,
-        foundProducts,
-      },
-    };
+    products = await dbProducts.getProductsByTerm("shirt");
   }
+
   return {
     props: {
       products,
-      searchTerm: query,
       foundProducts,
+      query,
     },
   };
 };
 
-export default Search;
+export default SearchPage;

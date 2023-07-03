@@ -2,7 +2,7 @@ import React from "react";
 import NextLink from "next/link";
 import { Chip, Grid, Link, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import ShopLayout from "../../components/layouts/ShopLayout";
+import { ShopLayout } from "../../components/layouts";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
@@ -13,9 +13,9 @@ const columns: GridColDef[] = [
     width: 200,
     renderCell: (params: GridValueGetterParams) => {
       return params.row.paid ? (
-        <Chip color='success' label='Paid' variant='outlined' />
+        <Chip color="success" label="Paid" variant="outlined" />
       ) : (
-        <Chip color='error' label='Pending Payment' variant='outlined' />
+        <Chip color="error" label="Pending Payment" variant="outlined" />
       );
     },
   },
@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
     renderCell: (params: GridValueGetterParams) => {
       return (
         <NextLink href={`/orders/${params.row.id}}`} passHref>
-          <Link underline='always'>Details</Link>
+          <Link underline="always">Details</Link>
         </NextLink>
       );
     },
@@ -66,10 +66,10 @@ const rows = [
 const HistoryPage = () => {
   return (
     <ShopLayout
-      title='Your orders history'
-      pageDescription='Here you can check all your past orders'
+      title="Your orders history"
+      pageDescription="Here you can check all your past orders"
     >
-      <Typography variant='h1' component='h1'>
+      <Typography variant="h1" component="h1">
         Order History
       </Typography>
       <Grid container>

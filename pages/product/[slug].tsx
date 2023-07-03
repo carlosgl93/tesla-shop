@@ -1,60 +1,113 @@
-import { Box, Button, Chip, Grid, Typography } from "@mui/material";
-import React from "react";
-import ShopLayout from "../../components/layouts/ShopLayout";
-import ProductSlideShow from "../../components/products/ProductSlideShow";
-import SizeSelector from "../../components/products/SizeSelector";
-import ItemCounter from "../../components/ui/ItemCounter";
-import { IProduct } from "../../interfaces";
+import { useState, useContext } from "react";
 import {
+  NextPage,
   GetServerSideProps,
   GetStaticPaths,
-  NextPage,
   GetStaticProps,
 } from "next";
+import { useRouter } from "next/router";
+
+import { Box, Button, Chip, Grid, Typography } from "@mui/material";
+
+import { CartContext } from "../../context/cart/CartContext";
+
+import { ShopLayout } from "../../components/layouts";
+import { ProductSlideshow, SizeSelector } from "../../components/products";
+import { ItemCounter } from "../../components/ui/ItemCounter";
 
 import { dbProducts } from "../../database";
+import { IProduct, ICartProduct, ISize } from "../../interfaces";
 
 interface Props {
   product: IProduct;
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
+  const router = useRouter();
+  const { addProductToCart } = useContext(CartContext);
+
+  const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
+    _id: product._id,
+    image: product.images[0],
+    price: product.price,
+    size: undefined,
+    slug: product.slug,
+    title: product.title,
+    gender: product.gender,
+    quantity: 1,
+  });
+
+  const selectedSize = (size: ISize) => {
+    setTempCartProduct((currentProduct) => ({
+      ...currentProduct,
+      size,
+    }));
+  };
+
+  const onUpdateQuantity = (quantity: number) => {
+    setTempCartProduct((currentProduct) => ({
+      ...currentProduct,
+      quantity,
+    }));
+  };
+
+  const onAddProduct = () => {
+    if (!tempCartProduct.size) {
+      return;
+    }
+
+    addProductToCart(tempCartProduct);
+    router.push("/cart");
+  };
+
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={7}>
-          <ProductSlideShow images={product.images} />
+          <ProductSlideshow images={product.images} />
         </Grid>
+
         <Grid item xs={12} sm={5}>
           <Box display="flex" flexDirection="column">
+            {/* titulos */}
             <Typography variant="h1" component="h1">
               {product.title}
             </Typography>
-            <Typography variant="subtitle1" component="h2">
-              ${`${product.price}`}
-            </Typography>
+            <Typography
+              variant="subtitle1"
+              component="h2"
+            >{`$${product.price}`}</Typography>
+
+            {/* Cantidad */}
             <Box sx={{ my: 2 }}>
-              <Typography variant="subtitle2" component="h6">
-                Quantity
-              </Typography>
-              <ItemCounter />
+              <Typography variant="subtitle2">Quantity</Typography>
+              <ItemCounter
+                currentValue={tempCartProduct.quantity}
+                updatedQuantity={onUpdateQuantity}
+                maxValue={product.inStock > 10 ? 10 : product.inStock}
+              />
               <SizeSelector
-                selectedSize={product.sizes[0]}
+                // selectedSize={ product.sizes[2] }
                 sizes={product.sizes}
+                selectedSize={tempCartProduct.size}
+                onSelectedSize={selectedSize}
               />
             </Box>
 
-            {product.inStock <= 0 ? (
-              <Chip
-                label="There is no items available"
-                color="error"
-                variant="outlined"
-              />
-            ) : (
-              <Button color="secondary" className="circular-btn">
-                Add to Cart
+            {/* Agregar al carrito */}
+            {product.inStock > 0 ? (
+              <Button
+                color="secondary"
+                className="circular-btn"
+                onClick={onAddProduct}
+              >
+                {tempCartProduct.size ? "Add to Cart" : "Select a size"}
               </Button>
+            ) : (
+              <Chip label="Not available" color="error" variant="outlined" />
             )}
+
+            {/* Descripción */}
             <Box sx={{ mt: 3 }}>
               <Typography variant="subtitle2">Description</Typography>
               <Typography variant="body2">{product.description}</Typography>
@@ -66,31 +119,11 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-//   const { slug = "" } = params as { slug: string };
-//   const product = await dbProducts.getProductBySlug(slug);
-
-//   if (!product) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return {
-//     props: {
-//       product,
-//     },
-//   };
-// };
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = await dbProducts.getAllProductsSlugs();
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+  const productSlugs = await dbProducts.getAllProductSlugs();
 
   return {
-    paths: slugs.map(({ slug }) => ({
+    paths: productSlugs.map(({ slug }) => ({
       params: {
         slug,
       },
@@ -99,20 +132,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default ProductPage;
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug = "" } = params as { slug: string };
-
   const product = await dbProducts.getProductBySlug(slug);
 
-  if (!product)
+  if (!product) {
     return {
       redirect: {
         destination: "/",
         permanent: false,
       },
     };
+  }
 
   return {
     props: {
@@ -121,3 +152,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     revalidate: 60 * 60 * 24,
   };
 };
+
+export default ProductPage;

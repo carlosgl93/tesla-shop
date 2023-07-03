@@ -10,9 +10,9 @@ import {
   Button,
   Link,
 } from "@mui/material";
-import CartList from "../../components/cart/CartList";
+import { CartList } from "../../components/cart";
 import OrderSummary from "../../components/cart/OrderSummary";
-import ShopLayout from "../../components/layouts/ShopLayout";
+import { ShopLayout } from "../../components/layouts";
 
 interface Props {}
 

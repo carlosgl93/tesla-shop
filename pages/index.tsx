@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import type { NextPage } from "next";
-import ShopLayout from "../components/layouts/ShopLayout";
-import ProductList from "../components/products/ProductList";
+import { ShopLayout } from "../components/layouts";
+import { ProductList } from "../components/products";
 import useProducts from "../hooks/useProducts";
 import FullscreenLoading from "../components/ui/FullscreenLoading";
 

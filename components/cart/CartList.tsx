@@ -68,7 +68,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                   }
                 />
               ) : (
-                <Typography variant="h6">
+                <Typography variant="subtitle1">
                   {product.quantity} {product.quantity > 1 ? "items" : "item"}
                 </Typography>
               )}

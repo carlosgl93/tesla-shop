@@ -44,8 +44,9 @@ const Login = () => {
       setTimeout(() => setShowError(false), 3000);
       return;
     }
-    // TODO: navigate user to page that user was trying to access before login
-    router.push("/");
+
+    const destination = router.query.p?.toString() || "/";
+    router.push(destination);
   };
 
   return (
@@ -119,7 +120,12 @@ const Login = () => {
               </Button>
             </Grid>
             <Grid item xs={12} display="flex" justifyContent="end">
-              <NextLink href="/auth/signup" passHref>
+              <NextLink
+                href={`/auth/signup?p=${
+                  router.query.p?.toString() || "/auth/signup"
+                }`}
+                passHref
+              >
                 <Link underline="always">Dont have an account yet?</Link>
               </NextLink>
             </Grid>

@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useReducer } from "react";
-import { AuthReducer } from "./authReducer";
-import { IUser, RegisterUserResponse } from "../../interfaces";
-import { AuthContext } from "./";
-import { teslaApi } from "../../api";
-import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { teslaApi } from "../../api";
+import { AuthContext, AuthReducer } from "./";
+import { IUser, RegisterUserResponse } from "../../interfaces";
 
 export interface AuthState {
   isLoggedIn: boolean;
@@ -22,10 +22,17 @@ type Props = {
 
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, AUTH_INITIAL_STATE);
+  const router = useRouter();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   const checkToken = async () => {
+    const cookieToken = Cookies.get("token");
+
+    if (!cookieToken) return;
+
     try {
       const { data } = await teslaApi.get("/user/validate-token");
 
@@ -54,7 +61,8 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
   const logoutUser = () => {
     Cookies.remove("token");
-    dispatch({ type: "Auth - Logout" });
+    Cookies.remove("cart");
+    router.reload();
   };
 
   const registerUser = async (

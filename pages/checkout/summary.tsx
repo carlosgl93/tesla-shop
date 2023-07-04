@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import { useRouter } from "next/router";
 import NextLink from "next/link";
 import {
   Typography,
@@ -13,14 +14,25 @@ import {
 import { CartList } from "../../components/cart";
 import OrderSummary from "../../components/cart/OrderSummary";
 import { ShopLayout } from "../../components/layouts";
+import { CartContext } from "../../context";
+import { countries } from "../../utils";
 
 interface Props {}
 
 const Summary: FC<Props> = () => {
+  const { shippingAddress, numberOfItems } = useContext(CartContext);
+
+  console.log(shippingAddress);
+  if (!shippingAddress) {
+    return <></>;
+  }
+  const { firstName, lastName, address, address2, city, country, phone, zip } =
+    shippingAddress;
+
   return (
     <ShopLayout title="Order Summary" pageDescription="order summary">
       <Typography variant="h1" component="h1">
-        Order Summary
+        Order Summary {numberOfItems} {numberOfItems > 1 ? "items" : "item"}
       </Typography>
       <Grid container sx={{ mt: 2 }} spacing={2}>
         <Grid item xs={12} sm={7}>
@@ -39,9 +51,17 @@ const Summary: FC<Props> = () => {
                   <Link underline="always">Edit</Link>
                 </NextLink>
               </Box>
-              <Typography>Carlos Gumucio</Typography>
-              <Typography>Copihue 2884</Typography>
-              <Typography>Stgo, Chile</Typography>
+              <Typography>
+                {firstName} {lastName}
+              </Typography>
+              <Typography>
+                {address}
+                {address2 ? `, ${address2}` : ""}
+              </Typography>
+              <Typography>{`${city}, ${zip} - ${
+                countries.find((c) => c.code === country)?.name
+              } `}</Typography>
+              <Typography>{phone}</Typography>
 
               <Box display="flex" justifyContent="space-between" sx={{ mt: 1 }}>
                 <Typography variant="subtitle1">Order Details</Typography>

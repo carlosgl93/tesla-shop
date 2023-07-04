@@ -11,5 +11,6 @@ interface ContextProps {
     password: string,
     name: string
   ) => Promise<RegisterUserResponse>;
+  checkToken: () => Promise<void>;
 }
 export const AuthContext = createContext({} as ContextProps);

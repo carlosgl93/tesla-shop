@@ -1,3 +1,6 @@
+import React, { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import NextLink from "next/link";
 import {
   Typography,
   Grid,
@@ -7,13 +10,26 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import React from "react";
 import { ShopLayout } from "../../components/layouts";
 import { CartList } from "../../components/cart";
 import OrderSummary from "../../components/cart/OrderSummary";
-import NextLink from "next/link";
+import { CartContext } from "../../context";
+import Loading from "../../components/ui/Loading";
 
 const CartPage = () => {
+  const { isLoaded, cart } = useContext(CartContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoaded && cart.length === 0) {
+      router.replace("/cart/empty");
+    }
+  }, [isLoaded, cart, router]);
+
+  if (!isLoaded || cart.length === 0) {
+    return <></>;
+  }
+
   return (
     <ShopLayout
       title="Your Shopping Cart"

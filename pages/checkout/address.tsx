@@ -47,14 +47,6 @@ const Address = () => {
   const router = useRouter();
   const { updateAddress } = useContext(CartContext);
 
-  // const { user } = useContext(AuthContext);
-
-  // if (!user)
-  //   router.push({
-  //     pathname: "/auth/login",
-  //     query: { p: "/checkout/address" },
-  //   });
-
   const {
     register,
     handleSubmit,

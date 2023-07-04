@@ -1,44 +1,46 @@
 import { Divider, Grid, Typography } from "@mui/material";
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import { CartContext } from "../../context";
+import { currency } from "../../utils";
 
 interface Props {}
 
-const OrderSummary: FC<Props> = () => {
+export const OrderSummary: FC<Props> = () => {
+  const { numberOfItems, subTotal, tax, total } = useContext(CartContext);
+
   return (
     <Grid container>
       <Grid item xs={6}>
         <Typography># of products</Typography>
       </Grid>
-      <Grid item xs={6} display='flex' justifyContent='end'>
-        <Typography>3 items</Typography>
+      <Grid item xs={6} display="flex" justifyContent="end">
+        <Typography>{numberOfItems}</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography>SubTotal</Typography>
+        <Typography>Sub total</Typography>
       </Grid>
-      <Grid item xs={6} display='flex' justifyContent='end'>
-        <Typography>{`$${155.36}`}</Typography>
+      <Grid item xs={6} display="flex" justifyContent="end">
+        <Typography>{currency.format(subTotal)}</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography>Taxes (15%)</Typography>
+        <Typography>
+          Taxes ({Number(process.env.NEXT_PUBLIC_TAX_RATE) * 100}%)
+        </Typography>
       </Grid>
-      <Grid item xs={6} display='flex' justifyContent='end'>
-        <Typography>{`$${35.34}`}</Typography>
+      <Grid item xs={6} display="flex" justifyContent="end">
+        <Typography>{currency.format(tax)}</Typography>
       </Grid>
       <Grid item xs={12} sx={{ my: 2 }}>
         <Divider />
       </Grid>
       <Grid item xs={6}>
-        <Typography variant='subtitle1'>Total</Typography>
+        <Typography variant="subtitle1">Total</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography
-          variant='subtitle1'
-          display='flex'
-          justifyContent='end'
-        >{`$${185.34}`}</Typography>
+        <Typography variant="subtitle1" display="flex" justifyContent="end">
+          {currency.format(total)}
+        </Typography>
       </Grid>
     </Grid>
   );
 };
-
-export default OrderSummary;

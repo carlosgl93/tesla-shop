@@ -8,9 +8,9 @@ interface Props {
   images: string[];
 }
 
-const ProductSlideShow: FC<Props> = ({ images }) => {
+export const ProductSlideshow: FC<Props> = ({ images }) => {
   return (
-    <Slide easing='ease' duration={7000} indicators>
+    <Slide easing="ease" duration={7000} indicators>
       {images.map((image) => {
         const url = `/products/${image}`;
         return (
@@ -18,7 +18,7 @@ const ProductSlideShow: FC<Props> = ({ images }) => {
             <div
               style={{
                 backgroundImage: `url(${url})`,
-                backgroundSize: "cover",
+                backgroundSize: "contain",
               }}
             ></div>
           </div>
@@ -27,5 +27,3 @@ const ProductSlideShow: FC<Props> = ({ images }) => {
     </Slide>
   );
 };
-
-export default ProductSlideShow;

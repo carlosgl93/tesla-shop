@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import { initialData } from "../../database/seed-data";
 import { ItemCounter } from "../ui";
 import { CartContext } from "../../context";
 import { ICartProduct } from "../../interfaces";
@@ -41,7 +40,6 @@ export const CartList: FC<Props> = ({ editable = false }) => {
           sx={{ mb: 1 }}
         >
           <Grid item xs={3}>
-            {/* TODO: llevar a la página del producto */}
             <NextLink href={`/product/${product.slug}`} passHref>
               <Link>
                 <CardActionArea>
@@ -70,9 +68,8 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                   }
                 />
               ) : (
-                <Typography variant="h5">
-                  {product.quantity}{" "}
-                  {product.quantity > 1 ? "productos" : "producto"}
+                <Typography variant="h6">
+                  {product.quantity} {product.quantity > 1 ? "items" : "item"}
                 </Typography>
               )}
             </Box>

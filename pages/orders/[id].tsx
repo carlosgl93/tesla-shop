@@ -11,8 +11,7 @@ import {
   Link,
   Chip,
 } from "@mui/material";
-import { CartList } from "../../components/cart";
-import OrderSummary from "../../components/cart/OrderSummary";
+import { CartList, OrderSummary } from "../../components/cart";
 import { ShopLayout } from "../../components/layouts";
 import { CreditScoreOutlined } from "@mui/icons-material";
 

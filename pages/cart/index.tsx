@@ -11,8 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import { ShopLayout } from "../../components/layouts";
-import { CartList } from "../../components/cart";
-import OrderSummary from "../../components/cart/OrderSummary";
+import { CartList, OrderSummary } from "../../components/cart";
 import { CartContext } from "../../context";
 import Loading from "../../components/ui/Loading";
 

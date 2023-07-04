@@ -5,7 +5,7 @@ import { currency } from "../../utils";
 
 interface Props {}
 
-const OrderSummary: FC<Props> = () => {
+export const OrderSummary: FC<Props> = () => {
   const { numberOfItems, subTotal, tax, total } = useContext(CartContext);
 
   return (
@@ -44,5 +44,3 @@ const OrderSummary: FC<Props> = () => {
     </Grid>
   );
 };
-
-export default OrderSummary;

@@ -1,10 +1,5 @@
 import { useState, useContext } from "react";
-import {
-  NextPage,
-  GetServerSideProps,
-  GetStaticPaths,
-  GetStaticProps,
-} from "next";
+import { NextPage, GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 
 import { Box, Button, Chip, Grid, Typography } from "@mui/material";
@@ -69,7 +64,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
         <Grid item xs={12} sm={5}>
           <Box display="flex" flexDirection="column">
-            {/* titulos */}
             <Typography variant="h1" component="h1">
               {product.title}
             </Typography>
@@ -78,7 +72,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               component="h2"
             >{`$${product.price}`}</Typography>
 
-            {/* Cantidad */}
             <Box sx={{ my: 2 }}>
               <Typography variant="subtitle2">Quantity</Typography>
               <ItemCounter
@@ -87,14 +80,12 @@ const ProductPage: NextPage<Props> = ({ product }) => {
                 maxValue={product.inStock > 10 ? 10 : product.inStock}
               />
               <SizeSelector
-                // selectedSize={ product.sizes[2] }
                 sizes={product.sizes}
                 selectedSize={tempCartProduct.size}
                 onSelectedSize={selectedSize}
               />
             </Box>
 
-            {/* Agregar al carrito */}
             {product.inStock > 0 ? (
               <Button
                 color="secondary"
@@ -107,7 +98,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               <Chip label="Not available" color="error" variant="outlined" />
             )}
 
-            {/* Descripción */}
             <Box sx={{ mt: 3 }}>
               <Typography variant="subtitle2">Description</Typography>
               <Typography variant="body2">{product.description}</Typography>

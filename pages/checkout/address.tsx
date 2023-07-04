@@ -1,4 +1,7 @@
+import { useContext } from "react";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { getSession } from "next-auth/react";
 
 import { useForm } from "react-hook-form";
 import Cookie from "js-cookie";
@@ -14,8 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ShopLayout } from "../../components/layouts";
-import { CartContext } from "../../context";
-import { useContext } from "react";
+import { AuthContext, CartContext } from "../../context";
 
 type FormData = {
   firstName: string;
@@ -44,6 +46,15 @@ const getAddressFromCookie = (): FormData => {
 const Address = () => {
   const router = useRouter();
   const { updateAddress } = useContext(CartContext);
+
+  // const { user } = useContext(AuthContext);
+
+  // if (!user)
+  //   router.push({
+  //     pathname: "/auth/login",
+  //     query: { p: "/checkout/address" },
+  //   });
+
   const {
     register,
     handleSubmit,
@@ -190,6 +201,24 @@ const Address = () => {
       </form>
     </ShopLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  console.log(session, "session");
+
+  if (!session)
+    return {
+      redirect: {
+        destination: "/auth/login?p=/checkout/address",
+        permanent: false,
+      },
+    };
+
+  return {
+    props: {},
+  };
 };
 
 export default Address;

@@ -46,17 +46,6 @@ const Login = () => {
   const onLoginUser = async ({ email, password }: FormData) => {
     setShowError(false);
 
-    // const isValidLogin = await loginUser(email, password);
-
-    // if (!isValidLogin) {
-    //   setShowError(true);
-    //   setTimeout(() => setShowError(false), 3000);
-    //   return;
-    // }
-
-    // const destination = router.query.p?.toString() || "/";
-    // router.push(destination);
-
     signIn("credentials", {
       email,
       password,

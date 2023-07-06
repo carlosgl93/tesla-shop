@@ -51,6 +51,7 @@ const Address = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     defaultValues: getAddressFromCookie(),
   });
@@ -148,7 +149,8 @@ const Address = () => {
                 select
                 variant="filled"
                 label="Country"
-                defaultValue={Cookie.get("country") || "CHL"}
+                key={Cookie.get("country") || countries[0].code}
+                defaultValue={Cookie.get("country") || countries[12].code}
                 {...register("country", {
                   required: "Please select your country",
                 })}
